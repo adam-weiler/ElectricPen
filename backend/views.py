@@ -32,3 +32,9 @@ class FrontendAppView(View):
                 """,
                 status=501,
             )
+
+
+class BlogView(View):
+
+  def home_page(self):
+    return HttpResponse('HI, this is the homepage.')

@@ -2,14 +2,17 @@
 import logging
 import os
 
-# Django
+# Django imports:
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse  # Used to send a response back to user.
 from django.views.generic import TemplateView, View
 from django.views.decorators.cache import never_cache
 
-# Serve Single Page Application
+# Serve Single Page Application:
 index = never_cache(TemplateView.as_view(template_name='index.html'))
+
+# ElectricPen:
+from backend.models import Article, Topic, Comment
 
 
 class FrontendAppView(View):
@@ -37,4 +40,6 @@ class FrontendAppView(View):
 class BlogView(View):
 
   def home_page(self):
+    all_articles = Article.objects.all()
+    print(all_articles)
     return HttpResponse('HI, this is the homepage.')

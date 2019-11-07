@@ -28,14 +28,14 @@ class Topic(models.Model):
     # article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='topics')
 
     def __str__(self):
-        return f"topic = {self.topic}"
+        return f"{self.topic}"
 
 
 class Comment(models.Model):
     author = models.CharField(max_length=255)
-    message = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    article = models.ForeignKey('Article', on_delete=models.CASCADE)
+    message = models.TextField()
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
 
     def __str__(self):
         return f'\'{self.message}\' - {self.author}'

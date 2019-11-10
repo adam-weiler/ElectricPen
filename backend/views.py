@@ -39,7 +39,20 @@ class FrontendAppView(View):
 
 class BlogView(View):
 
-  def home_page(self):
-    all_articles = Article.objects.all()
-    print(all_articles)
-    return HttpResponse('HI, this is the homepage.')
+    def list_articles(self):
+        all_articles = Article.objects.filter(status=1).order_by('-created_on')
+        print(all_articles)
+        return HttpResponse(all_articles)
+
+    def show_article(self, pk):
+        article = Article.objects.get(pk=pk)
+        comments = Comment.objects.filter(article=article)
+        print(article)
+        print(comments)
+        return HttpResponse(article)
+
+
+    # def article_topic(self, topic):
+    #     articles = Article.objects.filter(status=1).filter(topics=topic).order_by('-created_on')
+    #     print(articles)
+    #     return HttpResponse(articles)

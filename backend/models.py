@@ -4,23 +4,33 @@ from django.core.validators import (MinLengthValidator,)
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=255)
-    body = models.TextField(
+    title = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
+    
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    
+    updated_on = models.DateTimeField(auto_now=True)
+
+    content = models.TextField(
         validators=[MinLengthValidator(1)]
     )
-    draft = models.BooleanField(default=False)    
-    published_date = models.DateTimeField(auto_now_add=True)
-    last_modified = models.DateTimeField(auto_now=True)
+
+    created_on = models.DateTimeField(auto_now_add=True)
 
     # image = models.FilePathField(path="/img")
 
-    topics = models.ManyToManyField('Topic', related_name='articles')
+    topics = models.ManyToManyField('Topic', default='Unsorted', related_name='articles')
 
-    # author = models.CharField(max_length=255)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    # status = models.BooleanField(default=False)
+    status = models.IntegerField(choices=((0,"Draft"),(1,"Publish")), default=0)
+
+    class Meta:
+        ordering = ['-created_on']
 
     def __str__(self):
-        return f"'{self.title}' - by {self.user}'"
+        return f"'{self.title}' - by {self.author}'"
+
+    
 
 
 class Topic(models.Model):

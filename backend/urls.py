@@ -22,6 +22,8 @@ from .views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.BlogView.home_page),
+    path('home/', views.BlogView.list_articles, name='list_articles'),
+    path('articles/<int:pk>', views.BlogView.show_article, name='show_article'),
+    # path('topic/<str:topic>', views.BlogView.article_topic),
     url(r'^', views.FrontendAppView.as_view())
 ]

@@ -22,7 +22,7 @@ from django.forms.models import model_to_dict
 
 
 from rest_framework import viewsets
-from backend.serializers import ArticleSerializer, TopicSerializer
+from backend.serializers import ArticleSerializer, TopicSerializer, CommentSerializer
 
 
 # class FrontendAppView(View):
@@ -54,6 +54,10 @@ class ArticleViewSet(viewsets.ModelViewSet):
 class TopicViewSet(viewsets.ModelViewSet):
     queryset = Topic.objects
     serializer_class = TopicSerializer
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects
+    serializer_class = CommentSerializer
 
 
 class BlogView(View):

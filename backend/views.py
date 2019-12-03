@@ -22,7 +22,7 @@ from django.forms.models import model_to_dict
 
 
 from rest_framework import viewsets
-from backend.serializers import ArticleSerializer
+from backend.serializers import ArticleSerializer, TopicSerializer
 
 
 # class FrontendAppView(View):
@@ -50,6 +50,10 @@ from backend.serializers import ArticleSerializer
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.filter(status=1).order_by('-created_on')
     serializer_class = ArticleSerializer
+
+class TopicViewSet(viewsets.ModelViewSet):
+    queryset = Topic.objects
+    serializer_class = TopicSerializer
 
 
 class BlogView(View):

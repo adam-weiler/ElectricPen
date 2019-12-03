@@ -6,6 +6,7 @@ from backend import views
 
 router = routers.DefaultRouter()
 router.register(r'articles', views.ArticleViewSet)
+router.register(r'topics', views.TopicViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

@@ -1,6 +1,10 @@
 {
   "name": "electricpen",
+  "description": "ElectricPen provides a list of blogs, allows users to create a profile, post and comment on blogs.",
   "version": "0.1.0",
+  "engines": {
+    "node": "12.13.0"
+  },
   "private": true,
   "dependencies": {
     "bootstrap": "^4.4.1",

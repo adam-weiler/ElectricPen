@@ -22,9 +22,9 @@ from .views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('backend.myapi.urls')),
+    path('api', include('backend.myapi.urls')),
     path('home/', views.BlogView.list_articles, name='list_articles'),
     path('articles/<int:pk>', views.BlogView.show_article, name='show_article'),
     # path('topic/<str:topic>', views.BlogView.article_topic),
-    # url(r'^', views.FrontendAppView.as_view())
+    url(r'^', views.FrontendAppView.as_view()) # This is a catch-all for React.
 ]

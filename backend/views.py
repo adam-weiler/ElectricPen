@@ -25,26 +25,26 @@ from rest_framework import viewsets
 from backend.serializers import ArticleSerializer, TopicSerializer, CommentSerializer
 
 
-# class FrontendAppView(View):
-#     """
-#     Serves the compiled frontend entry point (only works if you have run `yarn
-#     run build`).
-#     """
+class FrontendAppView(View):
+    """
+    Serves the compiled frontend entry point (only works if you have run `yarn
+    run build`).
+    """
 
-#     def get(self, request):
-#         try:
-#             with open(os.path.join(settings.STATIC_ROOT, 'index.html')) as f:
-#                 return HttpResponse(f.read())
-#         except FileNotFoundError:
-#             logging.exception('Production build of app not found')
-#             return HttpResponse(
-#                 """
-#                 This URL is only used when you have built the production
-#                 version of the app. Visit http://localhost:3000/ instead, or
-#                 run `yarn run build` to test the production version.
-#                 """,
-#                 status=501,
-#             )
+    def get(self, request):
+        try:
+            with open(os.path.join(settings.STATIC_ROOT, 'index.html')) as f:
+                return HttpResponse(f.read())
+        except FileNotFoundError:
+            logging.exception('Production build of app not found')
+            return HttpResponse(
+                """
+                This URL is only used when you have built the production
+                version of the app. Visit http://localhost:3000/ instead, or
+                run `yarn run build` to test the production version.
+                """,
+                status=501,
+            )
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
@@ -58,6 +58,13 @@ class TopicViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects
     serializer_class = CommentSerializer
+
+# class UserViewSet(ListCreateAPIView):
+#     """
+#     API endpoint that allows users to be viewed or edited.
+#     """
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
 
 
 class BlogView(View):

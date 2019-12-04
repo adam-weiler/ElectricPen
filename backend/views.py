@@ -22,6 +22,7 @@ from django.forms.models import model_to_dict
 
 
 from rest_framework import viewsets
+from rest_framework.response import Response
 from backend.serializers import ArticleSerializer, TopicSerializer, CommentSerializer
 
 
@@ -47,8 +48,17 @@ class FrontendAppView(View):
             )
 
 
-class ArticleViewSet(viewsets.ModelViewSet):
+class ArticlesViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.filter(status=1).order_by('-created_on')
+    serializer_class = ArticleSerializer
+
+    # def list(self, request):
+    #     queryset = Article.objects.filter(status=1).order_by('-created_on')
+    #     serializer = ArticleSerializer(queryset, many = True)
+    #     return Response(serializer.data)
+
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects
     serializer_class = ArticleSerializer
 
 class TopicViewSet(viewsets.ModelViewSet):
@@ -77,18 +87,18 @@ class BlogView(View):
 
     def show_article(self, pk):
         article = Article.objects.get(pk=pk)
-        comments = Comment.objects.filter(article=article)
-        print(article)
-        print(comments)
-        # return HttpResponse(article)
+        # comments = Comment.objects.filter(article=article)
+        # print(article)
+        # print(comments)
+        # # return HttpResponse(article)
 
-        # serialized_obj = serializers.serialize('json', [ article, ])
-        dict_obj = model_to_dict( article )
-        serialized = json.dumps(dict_obj)
+        # # serialized_obj = serializers.serialize('json', [ article, ])
+        # dict_obj = model_to_dict( article )
+        # serialized = json.dumps(dict_obj)
 
         return JsonResponse({
             # 'article': serialized_obj,
-            'article': serialized,
+            'article': 'serialized',
             # 'comments': list(comments),
             'hey': 'hey'
         })

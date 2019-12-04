@@ -4,7 +4,8 @@ from backend import views
 
 router = routers.DefaultRouter()
 # router.register(r'users', views.UserViewSet)
-router.register(r'articles', views.ArticleViewSet)
+router.register(r'articles', views.ArticlesViewSet)
+router.register(r'article', views.ArticleViewSet)
 router.register(r'topics', views.TopicViewSet)
 router.register(r'comments', views.CommentViewSet)
 

@@ -22,10 +22,9 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'title', 'slug', 'updated_on', 'content', 'created_on', 'topics', 'status',)
         #  'slug', 'author', 'updated_on', 'content', 'created_on', 'topics', 'status')
 
-class TopicSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Topic
-        fields = ('id', 'topic',)
+class TopicSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    topic = serializers.CharField(required=True, allow_blank=False, max_length=255)
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

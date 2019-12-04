@@ -20,11 +20,23 @@ from django.urls import path, include
 
 from .views import index
 
+
+
+article_list = views.ArticleViewSet.as_view({
+    'get': 'list'
+})
+article_detail = views.ArticleViewSet.as_view({
+    'get': 'retrieve'
+})
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('backend.myapi.urls')),
     path('home/', views.BlogView.list_articles, name='list_articles'),
-    path('articles/<int:pk>', views.BlogView.show_article, name='show_article'),
+    
+    # path('articles/<int:pk>/', views.BlogView.show_article, name='show_article'),
     # path('topic/<str:topic>', views.BlogView.article_topic),
     url(r'^', views.FrontendAppView.as_view()) # This is a catch-all for React.
 ]

@@ -7,7 +7,7 @@ class Article(models.Model):
     title = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
     
-    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True, related_name='articles')
+    owner = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True, related_name='articles')
     
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -28,7 +28,7 @@ class Article(models.Model):
         ordering = ['-created_on']
 
     def __str__(self):
-        return f"'{self.title}' - by {self.author}'"
+        return f"'{self.title}' - by {self.owner}'"
 
     def save(self, *args, **kwargs):
         """
@@ -48,10 +48,10 @@ class Topic(models.Model):
 
 
 class Comment(models.Model):
-    author = models.CharField(max_length=255)
+    owner = models.CharField(max_length=255)
     created_on = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
 
     def __str__(self):
-        return f'\'{self.message}\' - {self.author}'
+        return f'\'{self.message}\' - {self.owner}'

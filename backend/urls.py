@@ -20,6 +20,8 @@ from django.urls import path, include
 
 from .views import index
 
+from django.conf.urls import include
+
 
 
 # article_list = views.ArticleViewSet.as_view({
@@ -38,5 +40,8 @@ urlpatterns = [
     
     # path('articles/<int:pk>/', views.BlogView.show_article, name='show_article'),
     # path('topic/<str:topic>', views.BlogView.article_topic),
-    url(r'^', views.FrontendAppView.as_view()) # This is a catch-all for React.
+
+    path('api-auth/', include('rest_framework.urls')),
+
+    url(r'^', views.FrontendAppView.as_view())
 ]

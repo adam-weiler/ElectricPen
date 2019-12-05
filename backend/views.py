@@ -21,13 +21,13 @@ import json
 from django.forms.models import model_to_dict
 
 
-from rest_framework import viewsets
+
 from rest_framework.response import Response
 from backend.serializers import ArticleSerializer, TopicSerializer, CommentSerializer, UserSerializer
 
 
 
-from rest_framework import status
+
 from rest_framework.decorators import api_view
 
 
@@ -35,13 +35,14 @@ from rest_framework.decorators import api_view
 
 from rest_framework.views import APIView
 # from rest_framework import mixins
-from rest_framework import generics
+
 
 
 from django.contrib.auth.models import User
 
 
-from rest_framework import permissions
+from rest_framework import viewsets, status, generics, permissions
+from backend.myapi.permissions import IsOwnerOrReadOnly
 
 
 class FrontendAppView(View):
@@ -99,7 +100,8 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                        IsOwnerOrReadOnly]
 
 
 

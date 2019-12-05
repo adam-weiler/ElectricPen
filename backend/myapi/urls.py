@@ -19,8 +19,8 @@ urlpatterns = [
     path('', include(router.urls)),
 
 
-    path('topics/', views.topic_list),
-    path('topics/<int:pk>/', views.topic_detail),
+    path('topics/', views.TopicList.as_view()),
+    path('topics/<int:pk>/', views.TopicDetail.as_view()),
 
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

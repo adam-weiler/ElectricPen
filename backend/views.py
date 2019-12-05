@@ -33,6 +33,10 @@ from rest_framework.decorators import api_view
 
 
 
+from rest_framework.views import APIView
+
+
+
 class FrontendAppView(View):
     """
     Serves the compiled frontend entry point (only works if you have run `yarn
@@ -74,17 +78,16 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 
 
-@api_view(['GET', 'POST'])
-def topic_list(request, format=None):
+class TopicList(APIView):
     """
     List all topics, or create a new topic.
     """
-    if request.method == 'GET':
+    def get(self, request, format=None):
         topics = Topic.objects.all()
         serializer = TopicSerializer(topics, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
+    def post(self, request, format=None):
         serializer = TopicSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -92,28 +95,31 @@ def topic_list(request, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def topic_detail(request, pk, format=None):
+class TopicDetail(APIView):
     """
     Retrieve, update or delete a code topic.
     """
-    try:
-        topic = Topic.objects.get(pk=pk)
-    except Topic.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    def get_object(self, pk):
+        try:
+            return Topic.objects.get(pk=pk)
+        except Topic.DoesNotExist:
+            raise HTTP404
 
-    if request.method == 'GET':
+    def get(self, request, pk, format=None):
+        topic = self.get_object(pk)
         serializer = TopicSerializer(topic)
         return Response(serializer.data)
 
-    elif request.method == 'PUT':
+    def put(self, request, pk, format=None):
+        snippet = self.get_object(pk)
         serializer = TopicSerializer(topic, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'DELETE':
+    def delete(self, request, pk, format=None):
+        topic = self.get_object(pk)
         topic.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

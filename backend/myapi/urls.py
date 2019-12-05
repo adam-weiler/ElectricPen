@@ -18,6 +18,9 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
 
+    path('articles/', views.ArticleList.as_view()),
+    path('articles/<int:pk>/', views.ArticleDetail.as_view()),
+
 
     path('topics/', views.TopicList.as_view()),
     path('topics/<int:pk>/', views.TopicDetail.as_view()),

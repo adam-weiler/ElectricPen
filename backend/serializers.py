@@ -16,7 +16,7 @@ from backend.models import Article, Topic, Comment
 #     username = serializers.CharField(max_length=100)
         
 
-class ArticleSerializer(serializers.HyperlinkedModelSerializer):
+class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ('id', 'title', 'slug', 'updated_on', 'content', 'created_on', 'topics', 'status',)

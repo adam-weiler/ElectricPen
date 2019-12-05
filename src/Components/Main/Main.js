@@ -41,25 +41,70 @@ export default class Main extends Component {
     // this.handleListArticles();
 
     // fetch(`https://randomuser.me/api/?results=20`)
-    // fetch(`/api/articles/`)
-    //   .then(results => {
-    //     return results.json();
-    //   })
-    //   .then(data => {
-    //     let articles = data.map(item => {
-    //       return (
-    //         <div key={`article` + item.id}>
-    //           <a href=''>{item.title}</a>
-    //         </div>
-    //       );
-    //     });
-    //     this.setState({ articles: articles });
-    //     console.log('Articles: ', this.state.articles);
-    //   });
+    fetch(`/api/articles/`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
+      })
+      .then(data => {
+        let articles = data.map(item => {
+          return (
+            <div key={`article` + item.id}>
+              <a href=''>
+                {item.title} - {item.slug} - item.author - {item.updated_on} -
+                {item.content} - {item.created_on} - Topics:{item.topics} -
+                {item.status}
+              </a>
+            </div>
+          );
+        });
+        this.setState({ articles: articles });
+        console.log('Articles: ', this.state.articles);
+      })
+      .catch(error => {
+        this.setState({ articles: 'There are no articles.' });
+        console.log(
+          'There has been a problem with your fetch operation: ',
+          error.message
+        );
+      });
+
+    fetch(`/api/articles/18/`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
+      })
+      .then(data => {
+        let article = (
+          <div key={`comment` + data.id}>
+            <a href='#'>
+              {data.title} - {data.slug} - data.author - {data.updated_on} -
+              {data.content} - {data.created_on} - Topics:{data.topics} -
+              {data.status}
+            </a>
+          </div>
+        );
+        this.setState({ one_article: article });
+        console.log('One article: ', this.state.one_article);
+      })
+      .catch(error => {
+        this.setState({ one_article: 'There is no article.' });
+        console.log(
+          'There has been a problem with your fetch operation: ',
+          error.message
+        );
+      });
 
     fetch(`/api/topics/`)
-      .then(results => {
-        return results.json();
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
       })
       .then(data => {
         let topics = data.map(item => {
@@ -71,11 +116,21 @@ export default class Main extends Component {
         });
         this.setState({ topics: topics });
         console.log('Topics: ', this.state.topics);
+      })
+      .catch(error => {
+        this.setState({ topics: 'There are no topics.' });
+        console.log(
+          'There has been a problem with your fetch operation: ',
+          error.message
+        );
       });
 
-    fetch(`/api/topics/1/`)
-      .then(results => {
-        return results.json();
+    fetch(`/api/topics/18/`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
       })
       .then(data => {
         // console.log(data);
@@ -83,11 +138,21 @@ export default class Main extends Component {
 
         this.setState({ one_topic: topic });
         console.log('One topic: ', this.state.one_topic);
+      })
+      .catch(error => {
+        this.setState({ one_topic: 'There is no topic.' });
+        console.log(
+          'There has been a problem with your fetch operation: ',
+          error.message
+        );
       });
 
     fetch(`/api/comments/`)
-      .then(results => {
-        return results.json();
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
       })
       .then(data => {
         let comments = data.map(item => {
@@ -102,11 +167,21 @@ export default class Main extends Component {
         });
         this.setState({ comments: comments });
         console.log('Comments: ', this.state.comments);
+      })
+      .catch(error => {
+        this.setState({ comments: 'There are no comments.' });
+        console.log(
+          'There has been a problem with your fetch operation: ',
+          error.message
+        );
       });
 
-    fetch(`/api/comments/2/`)
-      .then(results => {
-        return results.json();
+    fetch(`/api/comments/28/`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
       })
       .then(data => {
         console.log(data.article);
@@ -121,6 +196,13 @@ export default class Main extends Component {
 
         this.setState({ one_comment: comment });
         console.log('One comment: ', this.state.one_comment);
+      })
+      .catch(error => {
+        this.setState({ one_comment: 'There is no comment.' });
+        console.log(
+          'There has been a problem with your fetch operation: ',
+          error.message
+        );
       });
   }
 
@@ -133,6 +215,12 @@ export default class Main extends Component {
         <section className='section1'>
           <p>List of all articles:</p>
           {this.state.articles}
+          <br />
+          <br />
+          <br />
+
+          <p>Just 1 article:</p>
+          {this.state.one_article}
           <br />
           <br />
           <br />

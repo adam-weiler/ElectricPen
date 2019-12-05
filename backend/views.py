@@ -61,18 +61,42 @@ class FrontendAppView(View):
             )
 
 
-class ArticlesViewSet(viewsets.ModelViewSet):
+# class ArticlesViewSet(viewsets.ModelViewSet):
+#     queryset = Article.objects.filter(status=1).order_by('-created_on')
+#     serializer_class = ArticleSerializer
+
+#     # def list(self, request):
+#     #     queryset = Article.objects.filter(status=1).order_by('-created_on')
+#     #     serializer = ArticleSerializer(queryset, many = True)
+#     #     return Response(serializer.data)
+
+# class ArticleViewSet(viewsets.ModelViewSet):
+#     queryset = Article.objects
+#     serializer_class = ArticleSerializer
+
+
+
+class ArticleList(generics.ListCreateAPIView):
+    """
+    List all articles, or create a new article.
+    """
     queryset = Article.objects.filter(status=1).order_by('-created_on')
     serializer_class = ArticleSerializer
 
-    # def list(self, request):
-    #     queryset = Article.objects.filter(status=1).order_by('-created_on')
-    #     serializer = ArticleSerializer(queryset, many = True)
-    #     return Response(serializer.data)
 
-class ArticleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects
+class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve, update or delete a article.
+    """
+    queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+
+
+
+
+
+
+
 
 # class TopicViewSet(viewsets.ModelViewSet):
 #     queryset = Topic.objects

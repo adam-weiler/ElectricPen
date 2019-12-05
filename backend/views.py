@@ -41,6 +41,9 @@ from rest_framework import generics
 from django.contrib.auth.models import User
 
 
+from rest_framework import permissions
+
+
 class FrontendAppView(View):
     """
     Serves the compiled frontend entry point (only works if you have run `yarn
@@ -84,6 +87,10 @@ class ArticleList(generics.ListCreateAPIView):
     """
     queryset = Article.objects.filter(status=1).order_by('-created_on')
     serializer_class = ArticleSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -92,6 +99,7 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 

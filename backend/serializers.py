@@ -20,10 +20,13 @@ from django.contrib.auth.models import User
         
 
 class ArticleSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+    
     class Meta:
         model = Article
-        fields = ('id', 'title', 'slug', 'updated_on', 'content', 'created_on', 'topics', 'status',)
+        fields = ('id', 'title', 'slug', 'updated_on', 'content', 'created_on', 'topics', 'status','owner',)
         #  'slug', 'author', 'updated_on', 'content', 'created_on', 'topics', 'status')
+        
 
 class TopicSerializer(serializers.ModelSerializer):
     

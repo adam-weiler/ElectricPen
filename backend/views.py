@@ -34,6 +34,8 @@ from rest_framework.decorators import api_view
 
 
 from rest_framework.views import APIView
+from rest_framework import mixins
+from rest_framework import generics
 
 
 
@@ -78,50 +80,40 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 
 
-class TopicList(APIView):
+class TopicList(mixins.ListModelMixin,
+                mixins.CreateModelMixin,
+                generics.GenericAPIView):
     """
     List all topics, or create a new topic.
     """
-    def get(self, request, format=None):
-        topics = Topic.objects.all()
-        serializer = TopicSerializer(topics, many=True)
-        return Response(serializer.data)
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
 
-    def post(self, request, format=None):
-        serializer = TopicSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
-class TopicDetail(APIView):
+class TopicDetail(mixins.RetrieveModelMixin,
+                mixins.UpdateModelMixin,
+                mixins.DestroyModelMixin,
+                generics.GenericAPIView):
     """
     Retrieve, update or delete a code topic.
     """
-    def get_object(self, pk):
-        try:
-            return Topic.objects.get(pk=pk)
-        except Topic.DoesNotExist:
-            raise HTTP404
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
 
-    def get(self, request, pk, format=None):
-        topic = self.get_object(pk)
-        serializer = TopicSerializer(topic)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = TopicSerializer(topic, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
-    def delete(self, request, pk, format=None):
-        topic = self.get_object(pk)
-        topic.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 

@@ -28,7 +28,7 @@ class TopicSerializer(serializers.ModelSerializer):
         model = Topic
         fields = ('id', 'topic',)
 
-class CommentSerializer(serializers.HyperlinkedModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'author','created_on','message','article',)

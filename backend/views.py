@@ -90,16 +90,33 @@ class TopicList(generics.ListCreateAPIView):
 
 class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Retrieve, update or delete a code topic.
+    Retrieve, update or delete a topic.
     """
     queryset = Topic.objects.all()
     serializer_class = TopicSerializer
 
 
 
-class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects
+class CommentList(generics.ListCreateAPIView):
+    """
+    List all comments, or create a new comment.
+    """
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+
+class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve, update or delete a comment.
+    """
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+
+# class CommentViewSet(viewsets.ModelViewSet):
+#     queryset = Comment.objects
+#     serializer_class = CommentSerializer
 
 # class UserViewSet(ListCreateAPIView):
 #     """

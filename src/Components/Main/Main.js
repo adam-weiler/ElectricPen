@@ -41,21 +41,21 @@ export default class Main extends Component {
     // this.handleListArticles();
 
     // fetch(`https://randomuser.me/api/?results=20`)
-    fetch(`/api/articles/`)
-      .then(results => {
-        return results.json();
-      })
-      .then(data => {
-        let articles = data.map(item => {
-          return (
-            <div key={`article` + item.id}>
-              <a href=''>{item.title}</a>
-            </div>
-          );
-        });
-        this.setState({ articles: articles });
-        console.log('state', this.state.articles);
-      });
+    // fetch(`/api/articles/`)
+    //   .then(results => {
+    //     return results.json();
+    //   })
+    //   .then(data => {
+    //     let articles = data.map(item => {
+    //       return (
+    //         <div key={`article` + item.id}>
+    //           <a href=''>{item.title}</a>
+    //         </div>
+    //       );
+    //     });
+    //     this.setState({ articles: articles });
+    //     console.log('Articles: ', this.state.articles);
+    //   });
 
     fetch(`/api/topics/`)
       .then(results => {
@@ -70,7 +70,7 @@ export default class Main extends Component {
           );
         });
         this.setState({ topics: topics });
-        console.log('state', this.state.topics);
+        console.log('Topics: ', this.state.topics);
       });
 
     fetch(`/api/topics/1/`)
@@ -78,11 +78,49 @@ export default class Main extends Component {
         return results.json();
       })
       .then(data => {
-        console.log(data);
+        // console.log(data);
         let topic = data.topic;
 
         this.setState({ one_topic: topic });
-        console.log('state', this.state.one_topic);
+        console.log('One topic: ', this.state.one_topic);
+      });
+
+    fetch(`/api/comments/`)
+      .then(results => {
+        return results.json();
+      })
+      .then(data => {
+        let comments = data.map(item => {
+          return (
+            <div key={`comment` + item.id}>
+              <a href='#'>
+                {item.message} - {item.author} - {item.created_on} -{' '}
+                {item.article}
+              </a>
+            </div>
+          );
+        });
+        this.setState({ comments: comments });
+        console.log('Comments: ', this.state.comments);
+      });
+
+    fetch(`/api/comments/2/`)
+      .then(results => {
+        return results.json();
+      })
+      .then(data => {
+        console.log(data.article);
+        let comment = (
+          <div key={`comment` + data.id}>
+            <a href='#'>
+              {data.message} - {data.author} - {data.created_on} -{' '}
+              {data.article}
+            </a>
+          </div>
+        );
+
+        this.setState({ one_comment: comment });
+        console.log('One comment: ', this.state.one_comment);
       });
   }
 
@@ -96,13 +134,32 @@ export default class Main extends Component {
           <p>List of all articles:</p>
           {this.state.articles}
           <br />
+          <br />
+          <br />
 
           <p>List of all topics:</p>
           {this.state.topics}
           <br />
+          <br />
+          <br />
 
           <p>Just 1 topic:</p>
           {this.state.one_topic}
+          <br />
+          <br />
+          <br />
+
+          <p>List of all comments:</p>
+          {this.state.comments}
+          <br />
+          <br />
+          <br />
+
+          <p>Just 1 comment:</p>
+          {this.state.one_comment}
+          <br />
+          <br />
+          <br />
         </section>
       </main>
     );

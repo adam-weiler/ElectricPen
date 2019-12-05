@@ -22,12 +22,12 @@ from .views import index
 
 
 
-article_list = views.ArticleViewSet.as_view({
-    'get': 'list'
-})
-article_detail = views.ArticleViewSet.as_view({
-    'get': 'retrieve'
-})
+# article_list = views.ArticleViewSet.as_view({
+#     'get': 'list'
+# })
+# article_detail = views.ArticleViewSet.as_view({
+#     'get': 'retrieve'
+# })
 
 
 

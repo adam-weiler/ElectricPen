@@ -23,7 +23,7 @@ from django.forms.models import model_to_dict
 
 from rest_framework import viewsets
 from rest_framework.response import Response
-from backend.serializers import ArticleSerializer, TopicSerializer, CommentSerializer
+from backend.serializers import ArticleSerializer, TopicSerializer, CommentSerializer, UserSerializer
 
 
 
@@ -37,6 +37,8 @@ from rest_framework.views import APIView
 # from rest_framework import mixins
 from rest_framework import generics
 
+
+from django.contrib.auth.models import User
 
 
 class FrontendAppView(View):
@@ -181,3 +183,20 @@ class BlogView(View):
     #     articles = Article.objects.filter(status=1).filter(topics=topic).order_by('-created_on')
     #     print(articles)
     #     return HttpResponse(articles)
+
+
+
+class UserList(generics.ListAPIView):
+    """
+    List all users.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    """
+    Retrieve a user.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

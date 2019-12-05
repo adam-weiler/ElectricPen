@@ -14,6 +14,9 @@ from backend.models import Article, Topic, Comment
 # class UserSerializer(serializers.Serializer):
 #     email = serializers.EmailField()
 #     username = serializers.CharField(max_length=100)
+
+
+from django.contrib.auth.models import User
         
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -32,3 +35,10 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'author','created_on','message','article',)
+
+class UserSerializer(serializers.ModelSerializer):
+    articles = serializers.PrimaryKeyRelatedField(many=True, queryset=Article.objects.all())
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'articles',]

@@ -7,7 +7,7 @@ class Article(models.Model):
     title = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
     
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True, related_name='articles')
     
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -29,6 +29,12 @@ class Article(models.Model):
 
     def __str__(self):
         return f"'{self.title}' - by {self.author}'"
+
+    def save(self, *args, **kwargs):
+        """
+        Save the article.
+        """
+        super(Article, self).save(*args, **kwargs)
 
     
 

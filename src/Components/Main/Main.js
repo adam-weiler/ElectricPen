@@ -72,6 +72,18 @@ export default class Main extends Component {
         this.setState({ topics: topics });
         console.log('state', this.state.topics);
       });
+
+    fetch(`/api/topics/1/`)
+      .then(results => {
+        return results.json();
+      })
+      .then(data => {
+        console.log(data);
+        let topic = data.topic;
+
+        this.setState({ one_topic: topic });
+        console.log('state', this.state.one_topic);
+      });
   }
 
   render() {
@@ -87,6 +99,10 @@ export default class Main extends Component {
 
           <p>List of all topics:</p>
           {this.state.topics}
+          <br />
+
+          <p>Just 1 topic:</p>
+          {this.state.one_topic}
         </section>
       </main>
     );

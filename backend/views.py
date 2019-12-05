@@ -26,6 +26,13 @@ from rest_framework.response import Response
 from backend.serializers import ArticleSerializer, TopicSerializer, CommentSerializer
 
 
+
+from rest_framework import status
+from rest_framework.decorators import api_view
+
+
+
+
 class FrontendAppView(View):
     """
     Serves the compiled frontend entry point (only works if you have run `yarn
@@ -61,9 +68,56 @@ class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects
     serializer_class = ArticleSerializer
 
-class TopicViewSet(viewsets.ModelViewSet):
-    queryset = Topic.objects
-    serializer_class = TopicSerializer
+# class TopicViewSet(viewsets.ModelViewSet):
+#     queryset = Topic.objects
+#     serializer_class = TopicSerializer
+
+
+
+@api_view(['GET', 'POST'])
+def topic_list(request, format=None):
+    """
+    List all topics, or create a new topic.
+    """
+    if request.method == 'GET':
+        topics = Topic.objects.all()
+        serializer = TopicSerializer(topics, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = TopicSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def topic_detail(request, pk, format=None):
+    """
+    Retrieve, update or delete a code topic.
+    """
+    try:
+        topic = Topic.objects.get(pk=pk)
+    except Topic.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = TopicSerializer(topic)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = TopicSerializer(topic, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        topic.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects
